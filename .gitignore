@@ -1,0 +1,48 @@
+# Personal configs (root directory only)
+/AGENTS.md
+/MEMORY.md
+/SOUL.md
+/USER.md
+/IDENTITY.md
+/HEARTBEAT.md
+/TOOLS.md
+/*.md
+
+# Interview files
+minimax_interview_*.md
+
+# Media files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+*.zip
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Test files
+test_*.sh
+
+# Other directories not part of skills
+docs/
+memory/
+honor-of-kings-stories/
+.openclaw/
+config/
