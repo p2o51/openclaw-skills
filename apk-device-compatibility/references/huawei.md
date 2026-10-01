@@ -1,4 +1,4 @@
-# Huawei targets
+# Petal Maps reference
 
 ## Petal Maps historical case
 
@@ -14,11 +14,17 @@ Upstream forced `up2.g(Context)` true to bypass the launch gate. That helper als
 
 Build/sign success did not prove every map service worked. China map tiles and Japanese transit remained unresolved in the Android case. Do not claim a China-region account fixes them, the patch caused them, or every Petal Maps edition lacks Japanese transit. The native HarmonyOS edition was a different comparison subject.
 
-## Huawei Music: not yet validated
+## Reproduce the recorded build
 
-No Huawei Music APK has been analyzed for this skill. Do not advertise a working Music patch. Establish its actual package/version, signature, channel and failure first.
+Use upstream tag `v1.3.4` as the historical baseline; verify its resolved revision and current build instructions before execution. The recorded workflow used Morphe desktop 1.12.0 with the original APK identified above.
 
-Investigate manufacturer checks, framework calls, required shared libraries, signature-level permissions, account/HMS login and native ABI support. Distinguish launch gates from privileged services or Huawei audio hardware dependencies. Preserve normal paid-content authorization.
+The recorded enabled patches were Manufacturer Check Bypass, Anti-Repack Bypass, Huawei Login Fix, AccountPicker WebView force, and Main activity orientation fix. These labels describe the recorded functions; list the actual bundle patches to obtain exact current names before invoking the CLI. Package-name changing was disabled.
+
+Build the patch bundle using the pinned project's documented build task, list its contents, apply only the intended patches, align/sign and verify the output. Keep the signing key private and stable. Inspect all build scripts before execution; do not assume platform-specific paths work in the current environment.
+
+For a new Maps version, first compare the input version/hash and inspect whether upstream supports it. Revalidate each fingerprint and each ABI's native patch. If the same supported original hash is supplied again, explain that it is the same source build rather than claiming a new domestic edition. Do not apply the historical native patch to a different binary without analysis.
+
+The historical build was produced and signed; the user reported using the modified app. This is not a comprehensive runtime or navigation test. Missing China tiles and Japanese transit remained unresolved. Do not treat an outdated coverage page as proof of current behavior across all editions.
 
 ## Official tool references
 
