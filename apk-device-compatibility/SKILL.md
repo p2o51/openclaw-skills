@@ -1,9 +1,11 @@
 ---
 name: apk-device-compatibility
-description: Analyze and adapt Android APK manufacturer/model restrictions for non-vendor devices, including Huawei apps on Pixel. Use for device-gate diagnosis, minimal compatibility patches, rebuilding, signing and new-version adaptation. Preserve normal account, payment, subscription and DRM authorization; do not assume every app is patchable.
+description: Adapt the Android edition of Petal Maps (com.huawei.maps.app) for non-Huawei devices. Use for reproducing the PetalMaps-NonHuawei workflow, inspecting manufacturer gates, fixing related login compatibility, rebuilding/signing and evaluating newer Maps APKs. Scope is Petal Maps only; regional map and transit availability require separate verification.
 ---
 
-# APK device compatibility
+# Petal Maps on non-Huawei devices
+
+Keep the existing skill identifier for compatibility with installed references. Work only on the Android edition of Petal Maps; do not extend this workflow to unrelated Huawei apps or native HarmonyOS packages.
 
 Match the requested scope: inspect for diagnosis requests; implement for patch/build requests. Answer in the user's language and lead with the verified outcome.
 
@@ -12,13 +14,13 @@ Match the requested scope: inspect for diagnosis requests; implement for patch/b
 - Obtain an authorized original APK from the user or a verified source. Preserve it unchanged. Record source/date, size and SHA-256. Compare hashes rather than assuming different stores or languages mean different builds.
 - Inspect package, versionName/versionCode, minSdk/targetSdk, ABIs, manifest dependencies and certificate using Android SDK tools. Verify with apksigner; certificate names alone do not prove authenticity.
 - Distinguish standalone APK, incomplete base APK, split set and native HarmonyOS HAP/APP by contents. Removing a device gate cannot convert a HarmonyOS application to Android.
-- When extracting from a connected Android device, confirm its serial and discovered package. Run `adb -s SERIAL shell pm path PACKAGE` and collect every returned base/split path. Do not assume the Huawei Music package name.
+- When extracting from a connected Android device, confirm its serial and discovered package. Run `adb -s SERIAL shell pm path PACKAGE` and collect every returned base/split path. Require the inspected package to be `com.huawei.maps.app` before applying the Maps patches.
 - Establish target device/OS, exact failure stage/message, and relevant HMS/account-region state. Never request passwords or tokens; let the user perform real login.
 - Separate installation failure, launch rejection, missing vendor APIs, signature failures, server restrictions and regional content differences.
 
 ## Trace the gate
 
-- Read repository AGENTS.md and build instructions. Pin patch/tool versions and inspect existing source before reuse. Read references/huawei.md for Huawei targets.
+- Read repository AGENTS.md and build instructions. Pin patch/tool versions and inspect existing source before reuse. Read references/huawei.md for the pinned Maps precedent and unresolved service limitations.
 - Use JADX for inspection and smali or a supported patch framework for bytecode edits. Trace the rejection string/resource to its callers and the branch that exits.
 - Inspect all callers of a shared device helper. Prefer changing the narrow rejection branch over globally forcing a manufacturer helper true: other callers may select vendor-only login or system services.
 - Classify missing dependencies as optional with fallback, required runtime, privileged permission or hardware capability. A boolean change supplies none of these.
@@ -38,7 +40,7 @@ Match the requested scope: inspect for diagnosis requests; implement for patch/b
 
 - Check APK structure, intended package/version/ABIs, alignment and `apksigner verify --verbose --print-certs`. Compare intended changes and confirm the original is untouched.
 - With an authorized test device, verify installation, cold start, removal of the rejection, permissions, login/logout and relevant features. Redact tokens, account identifiers and unrelated personal data from logs.
-- For music, test local user-owned audio first, then normally authorized streaming, background playback, media controls and Bluetooth where relevant. A working splash screen does not prove playback works.
+- For Maps, test map tiles, location, place search, route planning, navigation voice and login separately. Check the user's target country. Record China map rendering and Japanese transit as separate feature checks; launch success proves neither.
 - Report artifact inspection, build, signature verification, installation, launch and feature tests as separate statuses. Mark unperformed runtime checks pending.
 - For content differences, compare like-for-like clients and change one variable at a time. A native HarmonyOS app is not a same-APK control. Treat account-region/service-routing explanations as hypotheses until demonstrated.
 - Deliver the requested build if produced, checksum, reproducible patch source, tested version/device and remaining limitations. Revalidate fingerprints and relevant regressions on each update; never promise future compatibility.
