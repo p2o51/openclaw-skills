@@ -1,4 +1,4 @@
 interface:
-  display_name: "APK 机型兼容适配"
-  short_description: "分析 Android APK 机型限制，制作可验证的最小兼容补丁"
-  default_prompt: "使用 $apk-device-compatibility 检查这个 APK 的机型限制，并在可行时制作兼容补丁。"
+  display_name: "花瓣地图机型兼容适配"
+  short_description: "整理花瓣地图 Android 版的机型限制补丁、登录兼容与构建验证流程"
+  default_prompt: "使用 $apk-device-compatibility 检查这个花瓣地图 APK，并复现或适配非华为设备补丁。"
